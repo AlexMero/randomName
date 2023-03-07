@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Select from '../../components/Select/Select'
 import ShowName from '../../components/ShowName/ShowName'
-import names from '../../ressources/names'
+import names from '../../ressources/babyNames'
 
 export default function Home() {
   const [gender, setGender] = useState('boy')
@@ -9,6 +9,8 @@ export default function Home() {
   const [randomNumber, setRandomNumber] = useState(
     getRandomNumber(0, names[gender].length - 1)
   )
+
+  const genderOptions = ['boy', 'girl']
 
   const handleGender = (value) => {
     setGender(value)
@@ -23,7 +25,11 @@ export default function Home() {
   return (
     <main>
       <h1>Générateur de nom aléatoire</h1>
-      <Select onHandleGender={handleGender} gender={gender} />
+      <Select
+        onHandleGender={handleGender}
+        gender={gender}
+        options={genderOptions}
+      />
       <p>
         Nom aléatoire :{' '}
         <ShowName gender={gender} show={showName} randomNumber={randomNumber} />

@@ -1,5 +1,5 @@
 import React from 'react'
-import names from '../../ressources/names'
+import names from '../../ressources/babyNames'
 
 function ShowName(props) {
   const gender = props.gender

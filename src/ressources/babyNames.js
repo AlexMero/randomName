@@ -1,4 +1,4 @@
-const names = {
+const babyNames = {
   girl: [
     'Emma',
     'Louise',
@@ -65,4 +65,4 @@ const names = {
   ],
 }
 
-export default names
+export default babyNames

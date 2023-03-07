@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 
-function Select(props) {
+function Select({ onHandleGender, gender, options }) {
   const [showOptions, setShowOptions] = useState(false)
-  const [selectedOptions, setSelectedOptions] = useState(props.gender)
+  const [selectedOptions, setSelectedOptions] = useState(gender)
 
   const translate = {
     boy: 'Garçon',
@@ -16,20 +16,23 @@ function Select(props) {
   const handleOptionsClick = (value) => {
     setSelectedOptions(value)
     setShowOptions(false)
-    props.onHandleGender(value)
+    onHandleGender(value)
   }
+
+  const optionsDiv = options.map((opt) => (
+    <div
+      key={opt}
+      className="option"
+      onClick={() => handleOptionsClick({ opt })}
+    >
+      {opt}
+    </div>
+  ))
 
   return (
     <div id="selectContainer">
       {showOptions ? (
-        <div id="optionsContainer">
-          <div className="option" onClick={() => handleOptionsClick('boy')}>
-            Garçon
-          </div>
-          <div className="option" onClick={() => handleOptionsClick('girl')}>
-            Fille
-          </div>
-        </div>
+        <div id="optionsContainer">{optionsDiv}</div>
       ) : (
         <div className="select" onClick={() => handleClick()}>
           {translate[selectedOptions]}
