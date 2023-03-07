@@ -1,0 +1,22 @@
+#selectContainer {
+  .select {
+    background-color: grey;
+    width: auto;
+    height: 2rem;
+    padding: 1rem;
+    border: 1px black solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .option {
+    background-color: cadetblue;
+    width: auto;
+    height: 2rem;
+    padding: 1rem;
+    border: 1px black solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
