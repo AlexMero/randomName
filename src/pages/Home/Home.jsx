@@ -1,19 +1,41 @@
 import React, { useState } from 'react'
 import Select from '../../components/Select/Select'
 import ShowName from '../../components/ShowName/ShowName'
-import names from '../../ressources/babyNames'
+import babyNames from '../../ressources/babyNames'
+import dogsName from '../../ressources/dogsName'
+import pseudos from '../../ressources/pseudos'
 
 export default function Home() {
+  const [type, setType] = useState('baby')
+  let names
+  switch (type) {
+    case 'baby':
+      names = babyNames
+      break
+    case 'dogs':
+      names = dogsName
+      break
+    case 'pseudos':
+      names = pseudos
+      break
+    default:
+      names = babyNames
+  }
+
   const [gender, setGender] = useState('boy')
   const [showName, setShowName] = useState(false)
+  const [univers, setUnivers] = useState('anime')
   const [randomNumber, setRandomNumber] = useState(
     getRandomNumber(0, names[gender].length - 1)
   )
 
-  const genderOptions = ['boy', 'girl']
-
   const handleGender = (value) => {
     setGender(value)
+    setShowName(false)
+  }
+
+  const handleType = (value) => {
+    setType(value)
     setShowName(false)
   }
 
@@ -22,18 +44,59 @@ export default function Home() {
     setShowName(true)
   }
 
+  const handleUnivers = (value) => {
+    setUnivers(value)
+    setShowName(false)
+  }
+
+  let specificSelect = (
+    <Select
+      key={'gender'}
+      onHandleChoose={handleGender}
+      options={['boy', 'girl']}
+      selectedOption={gender}
+    />
+  )
+  let showSpan = (
+    <ShowName
+      underList={gender}
+      show={showName}
+      randomNumber={randomNumber}
+      listNames={names}
+    />
+  )
+  if (type === 'pseudos') {
+    specificSelect = (
+      <Select
+        key={'univers'}
+        onHandleChoose={handleUnivers}
+        options={['anime', 'videogames', 'movies']}
+        selectedOption={univers}
+      />
+    )
+    showSpan = (
+      <ShowName
+        underList={univers}
+        show={showName}
+        randomNumber={randomNumber}
+        listNames={names}
+      />
+    )
+  }
+
   return (
     <main>
       <h1>Générateur de nom aléatoire</h1>
-      <Select
-        onHandleGender={handleGender}
-        gender={gender}
-        options={genderOptions}
-      />
-      <p>
-        Nom aléatoire :{' '}
-        <ShowName gender={gender} show={showName} randomNumber={randomNumber} />
-      </p>
+      <div id="selectContainer">
+        {specificSelect}
+        <Select
+          key={'type'}
+          onHandleChoose={handleType}
+          options={['baby', 'dogs', 'pseudos']}
+          selectedOption={type}
+        />
+      </div>
+      <p>Nom aléatoire : {showSpan}</p>
       <button
         id="generateButton"
         onClick={() => {
