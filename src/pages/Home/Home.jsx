@@ -3,10 +3,13 @@ import Select from '../../components/Select/Select'
 import ShowName from '../../components/ShowName/ShowName'
 import babyNames from '../../ressources/babyNames'
 import dogsName from '../../ressources/dogsName'
-import pseudos from '../../ressources/pseudos'
+import pseudosAnime from '../../ressources/pseudosAnime'
+import pseudosVideoGames from '../../ressources/pseudosVideogames'
+import pseudosMovies from '../../ressources/pseudosMovies'
 
 export default function Home() {
   const [type, setType] = useState('baby')
+  const [univers, setUnivers] = useState('anime')
   let names
   switch (type) {
     case 'baby':
@@ -16,7 +19,20 @@ export default function Home() {
       names = dogsName
       break
     case 'pseudos':
-      names = pseudos
+      switch (univers) {
+        case 'anime':
+          names = pseudosAnime
+          break
+        case 'videogames':
+          names = pseudosVideoGames
+          break
+        case 'movies':
+          names = pseudosMovies
+          break
+        default:
+          names = pseudosAnime
+          break
+      }
       break
     default:
       names = babyNames
@@ -24,7 +40,6 @@ export default function Home() {
 
   const [gender, setGender] = useState('boy')
   const [showName, setShowName] = useState(false)
-  const [univers, setUnivers] = useState('anime')
   const [randomNumber, setRandomNumber] = useState(
     getRandomNumber(0, names[gender].length - 1)
   )
@@ -37,6 +52,9 @@ export default function Home() {
   const handleType = (value) => {
     setType(value)
     setShowName(false)
+    if (type === 'pseudos') {
+      setRandomNumber(getRandomNumber(0, names[univers].length - 1))
+    }
   }
 
   const handleGenerateName = () => {
@@ -49,54 +67,42 @@ export default function Home() {
     setShowName(false)
   }
 
-  let specificSelect = (
+  const universSelect = (
     <Select
-      key={'gender'}
-      onHandleChoose={handleGender}
-      options={['boy', 'girl']}
-      selectedOption={gender}
+      key={'univers'}
+      onHandleChoose={handleUnivers}
+      options={['anime', 'videogames', 'movies']}
+      selectedOption={univers}
     />
   )
-  let showSpan = (
-    <ShowName
-      underList={gender}
-      show={showName}
-      randomNumber={randomNumber}
-      listNames={names}
-    />
-  )
-  if (type === 'pseudos') {
-    specificSelect = (
-      <Select
-        key={'univers'}
-        onHandleChoose={handleUnivers}
-        options={['anime', 'videogames', 'movies']}
-        selectedOption={univers}
-      />
-    )
-    showSpan = (
-      <ShowName
-        underList={univers}
-        show={showName}
-        randomNumber={randomNumber}
-        listNames={names}
-      />
-    )
-  }
 
   return (
     <main>
       <h1>Générateur de nom aléatoire</h1>
       <div id="selectContainer">
-        {specificSelect}
+        <Select
+          key={'gender'}
+          onHandleChoose={handleGender}
+          options={['boy', 'girl']}
+          selectedOption={gender}
+        />
         <Select
           key={'type'}
           onHandleChoose={handleType}
           options={['baby', 'dogs', 'pseudos']}
           selectedOption={type}
         />
+        {type === 'pseudos' ? universSelect : ''}
       </div>
-      <p>Nom aléatoire : {showSpan}</p>
+      <p>
+        Nom aléatoire :{' '}
+        <ShowName
+          gender={gender}
+          show={showName}
+          randomNumber={randomNumber}
+          listNames={names}
+        />
+      </p>
       <button
         id="generateButton"
         onClick={() => {
