@@ -1,6 +1,49 @@
 #selectContainer {
-  width: 20rem;
   display: flex;
   align-items: center;
   justify-content: space-around;
+  margin-right: 10px;
+}
+
+.select {
+  background-color: #d8d8d8;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #ccc;
+  }
+
+  &.active {
+    background-color: #007aff;
+    color: #fff;
+
+    &:hover {
+      background-color: #0072ff;
+    }
+  }
+}
+
+#generateButton {
+  background-color: #007aff;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 10px 20px;
+  transition: all 0.3s ease-in-out;
+  margin: auto;
+  width: 13rem;
+
+  &:hover {
+    background-color: #006cee;
+  }
+
+  &:active {
+    transform: translateY(1px);
+    box-shadow: none;
+  }
 }
